@@ -1,0 +1,2141 @@
+React is lib to build user interfaces by using language called javascript-ES 6.
+
+React 16 features
+
+Flux design pattern:
+
+State management(flux.js/redux/mobex)/biz layer  -------- View(React)
+
+
+Principles of flux pattern(redux/react)
+
+functional programming
+
+functional style
+object based
+
+javascript is object based,functional style,event driven pl
+
+React follows 100% functional programming style
+
+functional pl concepts
+
+1.pure functions / immutablity
+
+ 1.1.function takes input, returns the same
+
+     function sayHello(name){
+
+	  return name;
+     }
+     sayHello('test')
+
+ 1.2.what if i want to change/update/mutatate the data
+
+
+     function sayHello(name){
+
+	  return name.toUpperCase();
+     }
+     sayHello('test')
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+setup :
+
+>npm install create-react-app -g
+
+>create-react-app myreact-app
+
+>cd myreact-app
+
+myreact-app>code .
+	
+React 16:
+.........
+
+User interface building:
+
+1.jsx  - javascript and xml
+2.components : Reuseable Objects which represent UI.
+3.data : props and state 
+
+
+component creational patterns:
+1.inline / variable pattern
+2.functions
+3.classes -hooks
+
+react.js
+react-dom.js
+
+
+coding :
+1.imperative
+2.declarative
+ easy to write - less code
+ bugs free
+ uniform performance
+
+react is declarative through jsx
+
+render(HelloWorld(), document.getElementById('root')); - imperative
+render(<HelloWorld/>, document.getElementById('root')); - declarative
+ 
+
+import React from 'react';
+import { render } from 'react-dom';
+
+
+//variable pattern
+/* const HelloWorld = <h1>Hello World</h1>;
+render(HelloWorld, document.getElementById('root')); */
+//functions
+
+/* function HelloWorld() {
+      return <h1>Hello World</h1>; //React.createElement(...)
+} */
+//const HelloWorld = () => <h1>Hello World!</h1>;
+
+class HelloWorld extends React.Component {
+      render() {
+            return <h1>HelloWorld</h1>
+      }
+}
+
+//render(HelloWorld(), document.getElementById('root'));
+render(<HelloWorld />, document.getElementById('root'));
+
+////////////////////////////////////////////////////////////////////////////
+
+React 16 features
+
+React fiber:
+ React fiber is incremental render engine.
+
+React fiber objective:
+1.The best Performance ever
+
+Scheduling
+
+UI priority scheduling:
+
+1.fetching data from rest end point
+2. showing animations in the ui.
+
+React 16 is the first reference implementation of "React fiber"
+
+React 16 
+1.component return types
+
+ Note: component returns object--->Dom element
+
+Render method Return values:
+
+>null
+>string,number,boolean
+>array of primtives
+>jsx 
+>Element
+>Portal
+
+react code (jsx)-----compiler(babel)--compile jsx into plain js---executed on react fiber
+
+
+react code (jsx)
+class HelloMessage extends React.Component {
+  render() {
+    return (
+      <div>
+        Hello
+      </div>
+    );
+  }
+}
+
+ReactDOM.render(
+  <HelloMessage/>,
+  document.getElementById('root')
+);
+
+compiler generated code
+
+class HelloMessage extends React.Component {
+  render() {
+    return React.createElement(
+      "div",
+      null,
+      "Hello ",
+      this.props.name
+    );
+  }
+}
+
+ReactDOM.render(React.createElement(HelloMessage, { name: "Taylor" }), document.getElementById('hello-example'));
+
+
+
+import React, { Component } from 'react';
+import ReactDOM, { render } from 'react-dom'
+
+//Return jsx
+/* class App extends Component {
+
+      render() {
+            return <h1>Hello-JSX</h1>
+      }
+} */
+//should not return undefiend
+/* class App extends Component {
+
+      render() {
+            return; // undefined
+      }
+} */
+//returns null
+/* class App extends Component {
+
+      render() {
+            return null;
+      }
+} */
+//returns string
+/* class App extends Component {
+
+      render() {
+            return "Hello-String";
+      }
+} */
+//array of primitives
+/* class App extends Component {
+
+      render() {
+            //return [1, 2, 3, 4, 5]
+            return ['hello', 'react', 'fiber']
+      }
+} */
+//other primitives : numbers,boolean
+/* class App extends Component {
+
+      render() {
+            //return 43;
+            return true ? 'Ok' : 'Not Ok';
+      }
+} */
+//mixing array of primitives
+/* class App extends Component {
+
+      render() {
+            //return 43;
+            return [true ? 'Ok' : 'Not Ok', 10, 'welcome'];
+      }
+} */
+// const Hello = <h1>Hello!</h1>;
+//Array of objects not possible
+/* class App extends Component {
+
+      render() {
+            //return 43;
+            return [{ id: 1, name: 'A' }];
+      }
+} */
+//Elements
+class App extends Component {
+
+      render() {
+            return React.createElement(
+                  "h1",
+                  null,
+                  "Hello"
+            );
+      }
+}
+
+render(<App />, document.getElementById('root'));
+/////////////////////////////////////////////////////////////////////////////////
+Component Composition and React 16:
+...................................
+
+Component driven design talks how to break complex UI into smaller and compose them.
+
+JS-javascript X-XML
+
+<hello>
+<p>Hello
+
+XML rules
+1.every opened element must be closed
+  <p>test</p> <img />
+
+2.
+       <div>
+	<p>test</p><h2>test</h2>
+       </div>
+
+
+How to avoid unncessary root /container elements?
+
+ React.Fragement
+
+import React, { Component, Fragment } from 'react';
+import { render } from 'react-dom';
+
+//
+const Header = () => <h1>Header</h1>;
+const Footer = () => <h1>Footer</h1>;
+const Body = () => <h1>Body</h1>;
+
+//component composition
+/* const Layout = () => <div>
+      <Header />
+      <Body />
+      <Footer />
+</div>; */
+//with React.Fragement
+/* const Layout = () => <React.Fragment>
+      <Header />
+      <Body />
+      <Footer />
+</React.Fragment>; */
+//Short cut Fragment
+/* const Layout = () => <Fragment>
+      <Header />
+      <Body />
+      <Footer />
+</Fragment>; */
+//Without Fragment keywords
+const Layout = () => <>
+      <Header />
+      <Body />
+      <Footer />
+</>;
+
+render(<Layout />, document.getElementById('root'));
+
+.............................................................................
+
+class Table extends React.Component {
+  render() {
+    return (
+      <table>
+        <tr>
+          <Columns />
+        </tr>
+      </table>
+    );
+  }
+}
+class Columns extends React.Component {
+  render() {
+    return (
+      <>
+        <td>Hello</td>
+        <td>World</td>
+      </>
+    );
+  }
+}
+
+
+Result :
+
+<table>
+  <tr>
+      <td>Hello</td>
+      <td>World</td>
+  
+  </tr>
+</table>
+
+..................................................................................
+
+Data Binding:
+ 
+React Databinding syntax : {expression}
+
+expression : simple values,variables,function calls
+
+
+
+import React from 'react';
+import { render } from 'react-dom'
+
+
+const name = 'Ram!';
+const status = true;
+
+function getDepartment() {
+      return 'Sales'
+}
+
+const Employee = () => {
+      return <div>
+            <h1>Employee Details</h1>
+            <p>Employee Id : {1}</p>
+            <p>Name : {name}</p>
+            <p>Status : {status ? "Active" : "Inactive"}</p>
+            <p>Department {getDepartment()}</p>
+      </div>
+};
+
+render(<Employee />, document.getElementById('root'));
+//////////////////////////////////////////////////////////////////////////////////
+
+Pure function:
+1.pass input, return the same without changing.
+
+Note: every component is function, so we can pass input(data),dont mutate, return the same.
+
+Passing to input to compoment as parameter, bind that input using data binding syntax, render view :Property pattern.
+
+//input ='something'
+function doStuff(input){
+ 
+  return input //'something'
+
+}
+
+doStuff('something')
+
+//props = {title:'IBM'}
+function Header(props){
+
+  return <h1>{props.title}</h1>
+
+}
+Header({title:'IBM'})
+
+<Header title='IBM' location={'Pune'} />  =>Header({title:'IBM',location:'Pune'})
+
+
+
+
+Component class:
+...............
+Component is super class of a component which has
+
+1.instance variables
+props
+state
+2.instance methods
+3.static variables
+
+................................................................................
+
+Flux Pattern, uni/single direction data flow model:
+
+Data is passed from parent component to child component as prop.
+
+parent('something')
+
+ function parent(input){
+ 
+   return childLevel1(input)
+
+ }
+
+ function childLevel1(input){
+
+	return childLevel2(input)
+ }
+
+
+ function childLevel2(input){
+
+	return childLevel3(input)
+ }
+
+
+ function childLevel3(input){
+
+	return <h1>{input}<h1>
+ }
+
+
+.............................................................................
+
+import React from 'react';
+import { render } from 'react-dom';
+
+function Customer(props) {
+      return <div>
+            <h1>Customer Details</h1>
+            <h1>Id  {props.customerId}</h1>
+            {/*             <Name firstName={props.firstName} lastName={props.lastName} />
+            */}
+            <Name {...props} />
+            <ShippingAddress address={props.address} />
+      </div>
+}
+
+function Name(props) {
+      return <>
+            <h2>firstName : {props.firstName}</h2>
+            <h2>last Name : {props.lastName}</h2>
+      </>
+}
+
+function ShippingAddress(props) {
+      return <>
+            <h3>Shipping Address</h3>
+            <address>
+                  <p>Street {props.address.street}</p>
+                  <p>Area {props.address.area}</p>
+                  <p>City {props.address.city}</p>
+            </address>
+      </>;
+}
+
+//default Props
+Customer.defaultProps = {
+      customerId: 'A001',
+      firstName: 'First Name',
+      lastName: 'last Name',
+      address: {
+            street: 'Street',
+            area: 'Area',
+            city: 'City'
+      }
+}
+
+const App = () => {
+      return <Customer />
+}
+render(<App />, document.getElementById('root'));
+.................................................................................
+
+Data sharing between components and among Components:
+....................................................
+
+Data sharing between parent and child component:
+  Via props
+
+Note : data must be explicitly passed  to the child components(nested) manually.
+
+What if i want to acess data without passing as prop manually
+
+Context:
+
+Objective:
+Context provides a way to pass data through the component tree without having to pass props down manually at every level.
+
+>In a typical React application, data is passed top-down (parent to child) via props.
+
+>but this can be cumbersome for certain types of props (e.g. locale preference, UI theme) that are required by many components within an application. Context provides a way to share values like these between components without having to explicitly pass a prop through every level of the tree.
+
+When to Use?
+>Context is designed to share data that can be considered  for a tree of React components, such as the current   authenticated user, theme, or preferred language. 
+
+
+React.Context Object Creation
+
+
+context = {
+
+ Provider: {}
+ Consumer: {}
+}
+
+const ThemeContext = React.createContext('dark');
+
+
+Context Object has two Objects
+
+1.Provider
+2.Consumer
+
+ThemeContext.Provider :  for sharing data
+ThemeContext.Consumer :  where you want to extract shared data via Provider.
+
+<ThemeContext.Provider value={this.theme}>
+            <Toolbar />
+</ThemeContext.Provider>
+
+
+ <ThemeContext.Consumer>
+    {theme => <Button theme={theme} />}
+ </ThemeContext.Consumer>);
+
+
+Use case 1: Introducing Context:
+...............................
+import React, { Component } from 'react';
+import { render } from 'react-dom';
+
+
+//create context object and store inside a variable called "ThemeContext"
+const ThemeContext = React.createContext('dark');
+
+//with context
+class App extends Component {
+      theme = {
+            "backgroundColor": "red",
+            "color": "white"
+      }
+      render() {
+            return <ThemeContext.Provider value={this.theme}>
+                  <Toolbar />
+            </ThemeContext.Provider>
+      }
+}
+function Toolbar(props) {
+      return (
+            <div>
+                  <ThemedButton />
+            </div>
+      );
+}
+
+function ThemedButton(props) {
+      return <ThemeContext.Consumer>
+            {theme => <Button theme={theme} />}
+      </ThemeContext.Consumer>;
+}
+function Button(props) {
+      return <button style={props.theme}>Theme</button>
+}
+
+render(<App />, document.getElementById('root'));
+
+...................................................................................
+
+import React, { Component } from 'react';
+import { render } from 'react-dom';
+
+
+//create context object and store inside a variable called "ThemeContext"
+const { Provider, Consumer } = React.createContext('dark');
+
+//with context
+class App extends Component {
+      //Global data /Shared data
+      theme = {
+            "backgroundColor": "red",
+            "color": "white"
+      }
+      render() {
+            return <Provider value={this.theme}>
+                  <Toolbar />
+            </Provider>
+      }
+}
+function Toolbar(props) {
+      return (
+            <div>
+                  <ThemedButton />
+            </div>
+      );
+}
+
+function ThemedButton(props) {
+      return <Consumer>
+            {theme => <Button label="IBM" theme={theme} />}
+      </Consumer>;
+}
+function Button(props) {
+      return <button style={props.theme}>{props.label}</button>
+}
+
+render(<App />, document.getElementById('root'));
+
+..................................................................................
+
+List rendering: array rendering:
+................................
+
+iterate array:
+
+Impure patterns
+1.for loop
+2.for..each
+..........................
+pure function:
+3.map =>new Array =>transformation
+4.filter
+5.find
+6.reduce
+................
+
+import React from 'react';
+import { render } from 'react-dom';
+
+/* const List = props => {
+      return <div>
+            <ul>
+                  {
+                        props.numlist.map(function (item, index) {
+                              return <li key={index}>{item}</li>
+                        })
+                  }
+            </ul>
+      </div>
+};
+ */
+const List = props => <div>
+      <ul>
+            {
+                  props.numlist.map((item, index) =>
+                        <li key={index}>{item}</li>
+                  )
+            }
+      </ul>
+</div>
+
+const CustomerList = props => <div>
+      <ul>
+            {
+                  props.customers.map((customer, index) =>
+                        <li key={index}>{customer.id} - {customer.name}</li>
+                  )
+            }
+      </ul>
+</div>
+
+const App = () => {
+      const NUMLIST = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+      const CUSTOMERS = [{ id: 1, name: 'a1' }, { id: 2, name: 'a2' }, { id: 3, name: 'a3' }]
+      return <>
+            <List numlist={NUMLIST} />
+            <CustomerList customers={CUSTOMERS} />
+      </>;
+};
+render(<App />, document.getElementById('root'));
+.................................................................................
+
+state:
+
+change /mutate/update data.
+
+state is just instance variable inside React.Component class
+
+
+event handling:Syntentic event Handling.
+
+
+set State objective:
+
+1.To return immutable state, pure function pattern
+
+setState(func(oldstate){
+   return newState
+}) =>new State
+
+State Transition:
+
+Level-1--->Level-2--->Level-3--->Level-4--->Level-5--->LevelN...
+ {count:0}---> {count:1}---> {count:2}----->{count:3}--->{count:4}-----> {count:N }
+
+how to return newState?
+
+1. returning new Object with modified data, copy old fields as it is
+
+ let count = prevState.count + 1
+ return {
+    
+    count : count
+
+ }
+
+
+import React, { Component } from 'react';
+import { render } from 'react-dom';
+
+
+class Counter extends Component {
+      state = {
+            count: 0
+      };
+      //listener api
+      increment = () => {
+            /*  this.setState(function (prevState) {
+                   console.log(`The Previous State ${prevState.count}`);
+                   //must return new State : immutable object
+                   let newValue = prevState.count + 1;
+                   /* return {
+                         count: newValue
+                   }; */
+            //  return Object.assign({}, prevState, { count: newValue });
+            // return { ...prevState, count: newValue };
+            // }); */
+            let count = this.state.count + 1;
+            this.setState({ count });
+      }
+      render() {
+            console.log(`The Current State ${this.state.count}`);
+            return <div>
+                  <h1>Counter App</h1>
+                  <h2>Counter : {this.state.count}</h2>
+                  <button onClick={this.increment}>increment</button>
+            </div>
+      }
+}
+render(<Counter />, document.getElementById('root'));
+///////////////////////////////////////////////////////////////////////////////
+
+Hooks:
+
+Hooks are new Feature which eliminate classes, we are going to treat function as stateful component.
+
+We are going to abstract state inside functions. : every thing is function
+
+
+1.useState
+
+const [count,setCount]= useState(initalState)
+
+useState Hooks can take primitive as well in the source , interally react "hooks into literal object".
+old react only we can have literal object.
+
+
+
+import React, { useState } from 'react';
+import { render } from 'react-dom';
+
+
+function Counter(props) {
+      const [count, setCount] = useState(0);
+      return <div>
+            <h1>Counter App</h1>
+            <h2>Counter : {count}</h2>
+            {/*  <button onClick={() => setCount(count + 1)}>increment</button> */}
+            <button onClick={() => setCount(prevState => {
+                  console.log(`Previouse State ${prevState}`)
+                  return prevState + 1
+            })}>
+                  increment
+          </button>
+            <button onClick={() => setCount(count - 1)}>decrement</button>
+      </div>
+}
+
+
+render(<Counter />, document.getElementById('root'));
+............................................................................
+
+Adding multiple state variables:
+import React, { useState } from 'react';
+import { render } from 'react-dom';
+
+function Counter(props) {
+      const [incrementValue, setincrementValue] = useState(props.incrementSeed);
+      const [decrementValue, setdecrementValue] = useState(props.decrementSeed);
+      
+      return <div>
+            <h1>Counter App</h1>
+            <h2>Increment Value : {incrementValue}</h2>
+            <h2>Decrement Value : {decrementValue}</h2>
+
+            <button onClick={() => setincrementValue(prevState => {
+                  console.log(`Previouse State ${prevState}`)
+                  return prevState + 1
+            })}>
+                  increment
+          </button>
+            <button onClick={() => setdecrementValue(decrementValue - 1)}>decrement</button>
+      </div>
+}
+
+
+render(<Counter incrementSeed={50} decrementSeed={20} />, document.getElementById('root'));
+
+...................................................................................
+import React, { useState } from 'react';
+import { render } from 'react-dom';
+
+//state as literal object
+
+function FeedBack(props) {
+
+      const state = { like: 10 };
+      const [feedback, setFeedback] = useState(state);
+
+      function increment() {
+            let like = feedback.like + 1;
+            setFeedback({ ...feedback, like });
+      }
+      return <div>
+            <p>Your Feedback {feedback.like}</p>
+
+            <button onClick={increment}>
+                  increment
+         </button>
+      </div>
+}
+
+
+render(<FeedBack />, document.getElementById('root'));
+..................................................................................
+//arrow version
+const FeedBack = (props) => {
+      const state = { like: 10 };
+      const [feedback, setFeedback] = useState(state);
+      const increment = () => {
+            let like = feedback.like + 1;
+            setFeedback({ ...feedback, like });
+      };
+      return <div>
+            <p>Your Feedback {feedback.like}</p>
+            <button onClick={increment}>
+                  increment
+         </button>
+      </div>;
+};
+///////////////////////////////////////////////////////////////////////////////
+
+Side Effects,DOM manipulation,Memory Management:
+................................................
+
+What is side effects?
+ Changing DOM elements after vdom is mounted into real dom, and if you trigger update cycle,vdom is prepared, starts changing the dom layout.
+
+eg: i want to change the browser title of my application based on screen name
+
+
+Browser title in the inital phase
+   -Customer
+once if i start doing operations, like add,delete,update,search....
+  -Customer-add  / -Customer-delete -Customer-update
+
+if i am adding javascript dom listener,doing some side effects.
+
+ -you need to add listener, and also you need to remove listener.
+
+ window.addEventListener('resize',function(){
+    //side effects
+ });
+ window.removeEventListener('resize',function(){
+    //side effects
+ });
+
+
+import React, { Component } from 'react';
+import { render } from 'react-dom';
+
+//Side effects using old react style
+
+class Customer extends Component {
+
+
+      state = {
+            screen: 'Customer Manager App'
+      }
+      add = () => {
+            this.setState({ screen: 'Customer Manager App - Add ' })
+      }
+      render() {
+            return <div>
+                  <h1>Customer Manager App: using Side effects</h1>
+                  <button onClick={this.add} >Add</button>
+            </div>
+      }
+      //side effeects with inital / mount cycle
+      componentDidMount() {
+            //imperative dom
+            document.title = this.state.screen;
+      }
+      //side effects with update cycle
+      componentDidUpdate() {
+            document.title = this.state.screen;
+      }
+}
+
+render(<Customer />, document.getElementById('root'));
+///////////////////////////////////////////////////////////////////////////////////
+
+Side Effects,DOM manipulation,Memory Management using functional Components
+...........................................................................
+
+useEffect hook : 
+
+ ->useEffect is replacement of componentDidMount and componentDidUpdate
+
+
+
+import React, { useState, useEffect } from 'react';
+import { render } from 'react-dom';
+
+
+
+function Customer(props) {
+
+      const [screen, setScreen] = useState('Customer Manager App');
+
+      //Performing side effects
+      useEffect(function () {
+            document.title = screen;
+      });
+
+      function changeTitle() {
+            setScreen('Customer Manager App -Add');
+      }
+
+
+      return <div>
+            <h1>Customer Manager App: Function using Side effects</h1>
+            <button onClick={changeTitle} >Add</button>
+
+      </div>
+}
+
+render(<Customer />, document.getElementById('root'));
+...........................................**..................................
+Resoure Handling: how to avoid memory leaks
+
+Where do you write memory clean up activties in old react?
+
+componentWillunMount(){
+  window.removeListener('resize');
+}
+
+In useEffect hooks:
+ return a funciton, inside write a clean up code.
+
+import React, { useState, useEffect } from 'react';
+import { render } from 'react-dom';
+
+
+
+function Customer(props) {
+
+      const [screen, setScreen] = useState('Customer Manager App');
+      //declarating variable to hold current window width
+      const [width, setWidth] = useState(window.innerWidth);
+
+      //Performing side effects
+      useEffect(function () {
+            document.title = screen;
+      });
+
+      useEffect(() => {
+            const handleResize = () => setWidth(window.innerWidth);
+            //add listener
+            window.addEventListener('resize', handleResize);
+
+            //clean up code 
+            /**write a function which will be called by react internally */
+            return () => {
+                  window.removeEventListener('resize', handleResize);
+            };
+
+      });
+
+      function changeTitle() {
+            setScreen('Customer Manager App -Add');
+      }
+
+
+      return <div>
+            <h1>Customer Manager App: Function using Side effects</h1>
+            <button onClick={changeTitle} >Add</button>
+            <h2>Current Window width {width}</h2>
+
+      </div>
+}
+
+render(<Customer />, document.getElementById('root'));
+
+
+..................................................................................
+In the above we have so many hooks which makes your code less maintainable,testable,code duplatication(window resize)
+
+Custom Hooks, we can write our own hooks.
+
+hooks are just simple javascript function, can be named any but recommened is
+start with "use+HookName".
+
+
+src/windowhooks/useCustomwindowHook.js
+
+import { useState, useEffect } from 'react';
+
+//custom hooks
+const useWindowWidth = () => {
+      const [width, setWidth] = useState(window.innerWidth);
+      useEffect(() => {
+            const handleResize = () => setWidth(window.innerWidth);
+            window.addEventListener('resize', handleResize);
+            return () => {
+                  window.removeEventListener('resize', handleResize);
+            };
+      });
+      //must return state
+      return width;
+}
+export { useWindowWidth };
+
+
+import React, { useState, useEffect } from 'react';
+import { render } from 'react-dom';
+import { useWindowWidth } from './windowhooks/usewindowWidthHook';
+
+function Customer(props) {
+      const [screen, setScreen] = useState('Customer Manager App');
+      const width = useWindowWidth();
+      //Performing side effects
+      useEffect(function () {
+            document.title = screen;
+      });
+
+      function changeTitle() {
+            setScreen('Customer Manager App -Add');
+      }
+
+
+      return <div>
+            <h1>Customer Manager App: Function using Side effects</h1>
+            <button onClick={changeTitle} >Add</button>
+            <h2>Current Window width {width}</h2>
+
+      </div>
+}
+
+
+
+
+
+render(<Customer />, document.getElementById('root'));
+/////////////////////////////////////////////////////////////////////////////////
+
+Context with help of hooks : useContext
+
+src/globaldata/themecontext.js
+
+import React from 'react';
+
+const theme = {
+      "backgroundColor": "red",
+      "color": "white"
+}
+export const ThemeContext = React.createContext(theme);
+
+
+
+import React, { useState, useEffect, useContext } from 'react';
+import { render } from 'react-dom';
+import { useWindowWidth } from './windowhooks/usewindowWidthHook';
+import { ThemeContext } from './globaldata/themecontext';
+
+function Customer(props) {
+      const [screen, setScreen] = useState('Customer Manager App');
+      const width = useWindowWidth();
+      const theme = useContext(ThemeContext);
+      //Performing side effects
+      useEffect(function () {
+            document.title = screen;
+      });
+
+      function changeTitle() {
+            setScreen('Customer Manager App -Add');
+      }
+
+      return <div style={theme}>
+            <h1>Customer Manager App: Function using Side effects</h1>
+            <button onClick={changeTitle} >Add</button>
+            <h2>Current Window width {width}</h2>
+
+      </div>
+}
+
+
+render(<Customer />, document.getElementById('root'));
+
+..............................................................................
+
+Flux design pattern says keep data and its biz logic separate, View separate.
+
+Flux design pattern is implemented by facebook "flux.js"
+later flux design pattern is written by dan "Redux.js"
+
+Red -Reducer
+  Pure function which isloates state mutations.
+Ux - Flux
+
+
+state =>  data
+ move data and its biz operations eg : count,increment,decrement from react to redux.
+....................................************..................................
+
+Every thing is data, all data you need not move to redux.
+Rule of Thumb:
+  Move all biz  state(data) to Redux.
+     eg : count,customer,orders,employees....
+  Keep all UI State(data) inside react itself
+  hide/show
+  enable/disable
+  forms bindings
+    firstName --- firstName
+    lastName -----lastName
+
+   const userModel = {
+ 	firstName:firstName,
+   }
+   
+  submit to server userModel
+
+  const name = useFormInput('test');
+
+
+const useFormInput = (initialValue) => {
+
+  const [value, setValue] = useState(initialValue);
+
+  const handleChange = (e) => {
+
+    setValue(e.target.value);
+
+  }
+
+  return {
+
+    value,
+
+    onChange: handleChange
+
+  };
+
+}
+
+
+import React, { useState } from 'react';
+import { render } from 'react-dom';
+
+
+function Form() {
+      const firstNameRef = useFirstName('Subramanian')
+      const lastNameRef = useLastName('Murugan');
+      const [submitted, setSubmitted] = useState(false);
+      const handleSubmit = (e) => {
+            e.preventDefault();
+            let data = {
+                  firstName: firstNameRef.firstName,
+                  lastName: lastNameRef.lastName
+            }
+            setSubmitted(true);
+            alert(JSON.stringify(data));
+      };
+
+      return <div>
+            <h1>Form</h1>
+            <h3>{firstNameRef.firstName} {lastNameRef.lastName}</h3>
+            <form onSubmit={handleSubmit}>
+                  <div>
+                        First Name :<input {...firstNameRef} value={firstNameRef.firstName} />
+                  </div>
+                  <div>
+                        Last Name :<input {...lastNameRef} value={lastNameRef.lastName} />
+                  </div>
+                  <div>
+                        <input type="submit" value="Submit" />
+                  </div>
+            </form>
+
+      </div>
+}
+const useFirstName = (initialValue) => {
+      const [firstName, setFirstName] = useState(initialValue);
+      const handleChange = e => {
+            setFirstName(e.target.value);
+      }
+      return {
+            firstName,
+            onChange: handleChange
+      };
+
+}
+
+const useLastName = (initialValue) => {
+      const [lastName, setLastName] = useState(initialValue);
+      const handleChange = e => {
+            setLastName(e.target.value);
+      }
+      return {
+            lastName,
+            onChange: handleChange
+      };
+
+};
+
+
+render(<Form />, document.getElementById('root'));
+..................................................................................
+
+State Slicing using hooks:
+  if your component has complex biz logic, separate into reducers, dispatch an action then call reducers
+
+Redux work flow
+ ReactComponent--->event--->listener will dispatch--- action---store---invoke reducer---store--data--subscribe--consume
+
+React work flow looks like redux:
+
+React Component---event--listener will dispatch --- action---hook---invoke reducer--get the data
+
+..............................................................................
+
+useState and useReducer both are same.
+
+useState is used to mutate state inside component itself
+useReducer is used to isloate state mutation outside component.
+
+
+
+src/reducers
+  -counterreducer.js
+  -cartreducer.js
+  -productreducer.js
+  -customerreducer.js
+  -index.js
+
+
+using reducers
+import {counterReducer} from './reducers/counterreducer'
+import {cartReducer} from './reducers/cartreducer'
+
+///////////////////////////////////////////////////////////////////////////////////
+
+
+
+//ACTION Constant
+const INCREMENT = 'INCREMENT';
+const DECREMENT = 'DECREMENT';
+
+export {
+      INCREMENT,
+      DECREMENT
+};
+
+
+import {
+      INCREMENT,
+      DECREMENT
+} from '../actionconstants';
+
+//BIZ LOGIC
+export function counterReducer(state, action) {
+      switch (action.type) {
+            case INCREMENT:
+                  //pure function: biz logic
+                  let count = state.count + 1;
+                  return {
+                        ...state, count
+                  };
+            case DECREMENT:
+                  //pure function: biz logic
+                  return {
+                        ...state, count: state.count - 1
+                  };
+            default:
+                  throw new Error();
+
+      }
+}
+
+import React, { useReducer } from 'react';
+import { render } from 'react-dom';
+// import { INCREMENT, DECREMENT } from './actionconstants/counterconstants';
+import { INCREMENT, DECREMENT } from './actionconstants'
+//-import { counterReducer } from './reducers/counterreducer';
+import { counterReducer } from './reducers'
+
+
+const initialState = { count: 0 };
+function Counter() {
+      const [state, dispatch] = useReducer(counterReducer, initialState);
+
+      //increment logic
+      function increment() {
+            dispatch({ type: INCREMENT })
+      }
+      return <div>
+            <h1>Counter App with Reducer</h1>
+            <h1>Count : {state.count}</h1>
+            <button onClick={increment}>Increment</button>
+            <button onClick={() => { dispatch({ type: DECREMENT }) }}>Decrement</button>
+      </div>
+}
+
+render(<Counter />, document.getElementById('root'));
+
+..................************...............................................
+
+                              Reducer-Biz logic 
+				 |
+			      React Component
+				   |
+			----------------------------
+			Container                Presentational(view) 
+
+
+Container Component should not have any ui bindings.
+
+import React, { useReducer } from 'react';
+import { render } from 'react-dom';
+// import { INCREMENT, DECREMENT } from './actionconstants/counterconstants';
+import { INCREMENT, DECREMENT } from './actionconstants'
+//-import { counterReducer } from './reducers/counterreducer';
+import { counterReducer } from './reducers'
+
+const initialState = { count: 0 };
+
+//container
+/**
+ * subscribe state from bizlogic(reducer,redux)
+ */
+function Counter() {
+      const [state, dispatch] = useReducer(counterReducer, initialState);
+      return <div>
+            <CounterView {...state} dispatch={dispatch} />
+      </div>
+}
+//view
+function CounterView(props) {
+      const { dispatch } = props;
+      return <>
+            <h1>Counter App with Reducer</h1>
+            <h1>Count : {props.count}</h1>
+            <button onClick={() => { dispatch({ type: INCREMENT }) }}>Increment</button>
+            <button onClick={() => { dispatch({ type: DECREMENT }) }}>Decrement</button>
+      </>
+}
+
+render(<Counter />, document.getElementById('root'));
+.......................................***************...........................
+
+Container and Presentational Components:
+.......................................
+import React, { useReducer } from 'react';
+import { render } from 'react-dom';
+// import { INCREMENT, DECREMENT } from './actionconstants/counterconstants';
+import { INCREMENT, DECREMENT } from './actionconstants'
+//-import { counterReducer } from './reducers/counterreducer';
+import { counterReducer } from './reducers'
+
+const initialState = { count: 0 };
+
+
+
+
+//container
+/**
+ * subscribe state from bizlogic(reducer,redux)
+ */
+src/containers/Counter.jsx
+
+export function Counter() {
+      const [state, dispatch] = useReducer(counterReducer, initialState);
+      return <div>
+            <CounterView {...state} dispatch={dispatch} />
+      </div>
+}
+
+src/views/CounterView.jsx
+
+//view
+export function CounterView(props) {
+      const { dispatch } = props;
+      return <>
+            <h1>Counter App with Reducer</h1>
+            <h1>Count : {props.count}</h1>
+            <button onClick={() => { dispatch({ type: INCREMENT }) }}>Increment</button>
+            <button onClick={() => { dispatch({ type: DECREMENT }) }}>Decrement</button>
+      </>
+}
+
+render(<Counter />, document.getElementById('root'));
+...................................................................................
+
+Ajax Calls Using useEffect hook: functional Components:
+******************************************************
+
+then(fun1,fun2)
+
+import React, { useState, useEffect } from 'react';
+import { render } from 'react-dom';
+
+function Users() {
+      const [users, setUsers] = useState({
+            error: null,
+            isLoaded: false,
+            items: []
+      });
+      useEffect(() => {
+            const url = `https://jsonplaceholder.typicode.com/users`;
+            fetch(url).then(response => response.json())
+                  .then(result => {
+                    setUsers({ ...users, isLoaded: true, items: result })
+                  }, 
+                  (error) => {
+                 
+                        setUsers({ ...users, isLoaded: true, error: error })
+                  })
+      });
+      if (users.error) {
+            return <div>Error: {users.error.message}</div>;
+      } else if (!users.isLoaded) {
+            return <div>Loading...</div>;
+      } else {
+            return (
+                  <ul>
+                        {users.items.map((user, index) => (
+                              <li key={index}>
+                                    {user.username} {user.email}
+                              </li>
+                        ))}
+                  </ul>
+            );
+      }
+}
+render(<Users />, document.getElementById('root'));
+..........................................**.....................................
+
+Unit Testing:
+
+ You have test your code unit by unit(function).
+
+Why Unit Testing?
+->For getting acceptance
+->After development,Validate the req.
+
+Dev Env----------------------Testing Env
+
+
+
+Testing Env: Test Runners(Test Engine): js :Node
+
+Assertion libs/frameworks(chai,expect,should,React-assertion libs)
+   |
+Testing js Code (Plain js,React,Angular,Vue....)
+   |
+TestRuntime -(Mocha,Jest,Jasmine,Protractor,Karama,JS-DOM...)
+    |
+ Node Engine
+
+...............................................................................
+
+Test Renderer : core assertions lib from face book.
+Jest : core runtime from face book.
+
+Enzyme:
+Enzyme is a testing library which gives you the ability to render React components in memory or to the DOM while providing a jQuery-like API for traversing the react component tree.
+Since Enzyme’s mount function renders your component to the DOM, there is nothing stopping you from rendering an entire React application. Unfortunately the same features that allow you to easily unit test React components: access to component props and state, encourages poor testing practices when writing integration component tests.
+
+react-testing-library
+
+Kent C. Dodds pointed out some of these flaws with using Enzyme as an integration testing tool and developed his own library of testing utilities on top of react-dom and react-dom/test-utils.
+
+His library react-testing-library attempts to solve these issues by providing an API which focuses on testing applications “as a user would”. This means an API that returns HTML Elements rather than React Components and querying functions which query by text content (i.e. the stuff that a user would actually see on a page) or HTML data attributes (in cases where fetching by text is not possible or practical).
+
+react-testing-library has been certified and integrated with React 16.15 on wards.
+
+
+"Simple and complete React DOM testing utilities that encourage good testing practices"
+
+"It's a lightweight solution for testing React components. It provides utility functions on top of react-dom and react-dom/utils. Your tests work on DOM nodes over React component instances."
+
+................................................................................
+
+react-testing-lib core concepts:
+
+1.You need to write test case for each component in your code.
+
+Steps:
+1.start with test case
+
+ test()-function which encapsulate the test logic for a given component
+ test function takes two parameter
+    -name of the test in string.
+    -callback function, to be called by test runtime to execute assertions.
+
+eg:
+  test('foo test',function(){
+    //test logic will go
+  })
+ How many test cases i can write for a given story(component)?
+  Many but , you have to verfify the req doc.
+
+2.Component Testing
+  if you test component, you have to bring component into test env.
+ call  render function from react-testing-lib
+  render function takes parameter the Component
+
+render method returns an Object
+ which contains DOM Selector apis which are used to Query DOM nodes
+
+ const { getByText } = render(<App />);
+  const linkElement = getByText(/learn react/i);
+  expect(linkElement).toBeInTheDocument();
+
+Note: expect is function which returns an object which has lot of api's are called 
+assertions api.
+
+
+tear down process:
+
+
+...................................................................................
+
+eg:
+
+import React, { useState } from 'react';
+import { render, fireEvent, cleanup, waitForElement } from '@testing-library/react';
+import App from './App';
+
+
+const HelloWorld = () => {
+  return <div>
+    <h1>HelloWorld</h1>
+  </div>
+}
+
+const Counter = () => {
+  const [count, setCount] = useState(10);
+  function increment() {
+    setCount(count + 1);
+  }
+  function decrement() {
+    setCount(count - 1);
+  }
+  function decrementasync() {
+    setTimeout(() => setCount(count - 1), 260);
+  }
+  return <div>
+    <span data-testid='count'>{count}</span>
+    <button onClick={increment}>increment</button>
+    <button onClick={decrement}>decrement</button>
+    <button onClick={decrementasync}>decrementasync</button>
+
+  </div>
+}
+
+//tear down process: clean up process
+
+afterEach(cleanup)
+
+
+test('My test Case', () => {
+  console.log('my first test')
+});
+
+
+test('App Component Link Test', function () {
+  //get DOM Query Selector api in order to Query dom nodes
+  const { getByText } = render(<App />);
+  //get DOM node
+  const linkElement = getByText(/learn react/i);
+  //Assertions
+  expect(linkElement).toBeInTheDocument();
+})
+
+test('renders HelloWorld', function () {
+  const { getByText } = render(<HelloWorld />);
+  const headerElement = getByText(/Hello/i);
+  expect(headerElement).toBeInTheDocument();
+});
+test('H1 innerHTML should be HelloWorld', function () {
+  const { getByText } = render(<HelloWorld />);
+  const headerElement = getByText(/Hello/i);
+  expect(headerElement.innerHTML).toEqual('HelloWorld')
+});
+
+test('Counter should show inital count', function () {
+  const { getByTestId } = render(<Counter />);
+  expect(getByTestId('count')).toHaveTextContent('10')
+});
+
+test('Counter should incremement count', function () {
+  const { getByTestId, getByText } = render(<Counter />);
+  fireEvent.click(getByText('increment'))
+  expect(getByTestId('count')).toHaveTextContent('11')
+});
+test('Counter should decrement count', function () {
+  const { getByTestId, getByText } = render(<Counter />);
+  fireEvent.click(getByText('decrement'))
+  expect(getByTestId('count')).toHaveTextContent('9')
+});
+//Async
+it('Counter should decrement  count async', async function () {
+  const { getByText } = render(<Counter />);
+  fireEvent.click(getByText('decrementasync'))
+  const countspan = await waitForElement(() => getByText('9'))
+  expect(countspan).toHaveTextContent('9')
+});
+..................................................................................
+
+React Router:
+>npm install react-router-dom --save
+
+Concepts: 
+ Navigation happens based on urls
+
+Url patterns:
+1.static url
+   http://www.example.com/profilepic.jpg
+2.dynamic url
+   http://www.example.com/profile.cgi
+   http://www.example.com/profile.do
+   http://www.example.com/profile.aspx
+3.Resource based url : webservice :REST
+    http://www.example.com/profiles - JSON /XML /...
+     http://www.example.com/profiles/10
+4.SPA urls - hash based url
+  http://www.example.com/index.html#profile -partials
+  http://www.example.com/appname/profile
+
+In react router every thing is ready made Components.
+
+
+Main Components in React Router:
+
+1.routers, like <BrowserRouter> and <HashRouter>
+2.route matchers, like <Route> and <Switch>
+3.and navigation, like <Link>, <NavLink>, and <Redirect>
+
+Apis -Objects:
+.............
+hooks:
+useHistory - history
+useLocation -location
+useParams  - collection of parameters
+useRouteMatch - Route
+
+Rotuer Architecture
+
+ Shell-Component
+	-->BrowserRouter
+		--Links
+		Switch
+		  -Router
+		  -Router
+
+import React from 'react';
+import { render } from 'react-dom'
+import { BrowserRouter, Link, Switch, Route } from 'react-router-dom';
+
+export const Home = () => {
+      return <div>
+            <h1>IBM Home</h1>
+      </div>
+};
+export const ContactUs = () => {
+      return <div>
+            <h1>ContactUs</h1>
+      </div>
+};
+export const Dashboard = () => {
+      return <div>
+            <h1>IBM DashBoard</h1>
+      </div>
+};
+
+//Shell Component
+const App = () => {
+      return <BrowserRouter>
+            <div>
+                  <ul>
+                        <li>
+                              <Link to="/">Home</Link>
+                        </li>
+                        <li>
+                              <Link to="/about">About</Link>
+                        </li>
+                        <li>
+                              <Link to="/dashboard">Dashboard</Link>
+                        </li>
+                  </ul>
+            </div>
+            <hr />
+            <Switch>
+                  <Route exact path="/">
+                        <Home />
+                  </Route>
+                  <Route path="/about">
+                        <ContactUs />
+                  </Route>
+                  <Route path="/dashboard">
+                        <Dashboard />
+                  </Route>
+            </Switch>
+      </BrowserRouter >;
+}
+render(<App />, document.getElementById('root'));	
+
+.................................................................................   
+Nested Navigation: sub menus,How to use Parameters,Dynamic Routing:
+
+->useParams,useRouteMatch hooks
+
+import React from 'react';
+import { render } from 'react-dom'
+import { BrowserRouter, Link, Switch, Route, useParams, useRouteMatch, useHistory } from 'react-router-dom';
+
+//TODO: Write  this in a separate file
+export const Home = () => {
+      return <div>
+            <h1>IBM Home</h1>
+      </div>
+};
+//TODO: Write  this in a separate file
+
+export const ContactUs = () => {
+      return <div>
+            <h1>ContactUs</h1>
+      </div>
+};
+//TODO: Write  this in a separate file
+
+export const Dashboard = () => {
+      return <div>
+            <h1>IBM DashBoard</h1>
+      </div>
+};
+
+export const Topics = () => {
+      let { path, url } = useRouteMatch();
+
+      return <>
+            <h1>Topics</h1>
+            <ul>
+                  <li>
+                        <Link to={`${url}/react`}>
+                              React Fiber
+                      </Link>
+                  </li>
+                  <li>
+                        <Link to={`${url}/angular`}>
+                              Angular 8
+                      </Link>
+                  </li>
+                  <li>
+                        <Link to={`${url}/vue`}>
+                              Vue
+                      </Link>
+                  </li>
+            </ul>
+            <Route path={`${path}/:topicId`} component={Topic} />
+      </>
+}
+
+/* const Topic = ({ match }) => (
+      <div>
+            <h3>{match.params.topicId}</h3>
+      </div>
+) */
+const Topic = () => {
+      let { topicId } = useParams();
+      let history = useHistory();
+
+      function handleClick() {
+            history.push("/");
+      }
+      return <div>
+            <h3>{topicId}</h3>
+            <button type="button" onClick={handleClick}>
+                  Go home
+            </button>
+      </div>
+}
+
+//Shell Component
+const App = () => {
+      return <BrowserRouter>
+            <div>
+                  <ul>
+                        <li>
+                              <Link to="/">Home</Link>
+                        </li>
+                        <li>
+                              <Link to="/about">About</Link>
+                        </li>
+                        <li>
+                              <Link to="/dashboard">Dashboard</Link>
+                        </li>
+                        <li>
+                              <Link to="/topics">Topics</Link>
+                        </li>
+                  </ul>
+            </div>
+            <hr />
+            <Switch>
+                  <Route exact path="/">
+                        <Home />
+                  </Route>
+                  <Route path="/about">
+                        <ContactUs />
+                  </Route>
+                  <Route path="/dashboard" component={Dashboard} />
+                  <Route path="/topics" component={Topics} />
+            </Switch>
+      </BrowserRouter >;
+}
+render(<App />, document.getElementById('root'));
+
+...................................................................................
+Redux:
+
+Flux Design Pattern:
+
+Flux is alternate to MVC Design pattern.
+
+Flux pattern talks about :
+
+How to separate State from UI and write biz logic .
+
+Flux is all about state manangement.
+
+What is REDUX?
+
+ RED => Reducer => pure function
+ UX  => LAST TWO Letter of flux 
+
+redux is flux reference implementation next to flux.js
+
+Redux is state management lib.
+Redux was not only invented for react.
+Redux can be used with other javascript libs
+ Angular with Redux =>ngRx
+
+Redux Core Principles
+
+1.Single Source of truth
+
+The state of your whole application is stored in an object tree within a single store.
+
+2.State is read-only
+ The only way to change the state is to emit an action, an object describing what happened.
+
+
+3.Changes are made with pure functions
+  To specify how the state tree is transformed by actions, you write pure reducers.
+
+
+View 
+  View is Presentation where which Presents data and Ui : React
+
+Store 
+ It is place where biz data is stored,responsible for supplying data to view.
+
+Store has three responsbility:
+1.storing data
+2.having biz logic with help of reducer
+3.giving data to ui.
+
+action is description about what to do.
+ action is also called request.
+
+Dispatcher :
+  The person who takes action to the store.
+
+Redux work flow
+
+		
+                   Reducer-1         Reducer-2       Reducer-N
+		     |                  |              |
+              after calling reducer who returns data to store and data is returned to View
+               | ------------------------------------------------
+	<--data	via events	  store -will invoke reducer()
+        |        ------------------------------------------------
+	|	    |                |                 |
+	|	
+	|	    |
+	|	    |
+	|        dispatcher
+	|	   |
+	|	(request
+	|	  action)
+	|	   |
+        |
+	------>View(React)
+		  |
+
+		End User
+
+................................................................................
+
+1.install  redux
+ >npm install redux
+ >yarn add redux
+
+Redux apis
+
+top level apis:
+1.createStore(reducer, [preloadedState], [enhancer])
+2.combineReducers(reducers)
+3.applyMiddleware(...middlewares)
+4.bindActionCreators(actionCreators, dispatch)
+5.compose(...functions)
+
+Store level apis:
+Store : Object
+How to create Store object ?
+  via factory function.
+
+var store =createStore();
+
+import React from 'react';
+import { render } from 'react-dom';
+import { createStore } from 'redux';
+import { INCREMENT, DECREMENT } from './actionconstants'
+
+
+//reducer :pure function
+function counterReducer(state = { count: 0 }, action) {
+      console.log(`Previous state ${state.count}`)
+      console.log(`action`)
+      console.log(action)
+      switch (action.type) {
+            case INCREMENT:
+                  //pure function: biz logic
+                  let count = state.count + 1;
+                  return {
+                        ...state, count
+                  };
+            case DECREMENT:
+                  //pure function: biz logic
+                  return {
+                        ...state, count: state.count - 1
+                  };
+            default:
+                  return state;
+      }
+}
+
+const store = createStore(counterReducer);
+
+//
+store.subscribe(function () {
+      console.log(`New State ${store.getState().count}`)
+});
+
+//
+store.dispatch({ type: INCREMENT })
+store.dispatch({ type: INCREMENT })
+store.dispatch({ type: INCREMENT })
+store.dispatch({ type: INCREMENT })
+store.dispatch({ type: DECREMENT })
+
+..................................................................................
+
+React -Redux integration.
+
+import React from 'react';
+import { render } from 'react-dom';
+import { createStore } from 'redux';
+import { Provider, connect } from 'react-redux';
+import { INCREMENT, DECREMENT } from './actionconstants'
+
+
+//reducer :pure function
+function counterReducer(state = { count: 10 }, action) {
+      console.log(`Previous state ${state.count}`)
+      console.log(`action`)
+      console.log(action)
+      switch (action.type) {
+            case INCREMENT:
+                  //pure function: biz logic
+                  let count = state.count + 1;
+                  return {
+                        ...state, count
+                  };
+            case DECREMENT:
+                  //pure function: biz logic
+                  return {
+                        ...state, count: state.count - 1
+                  };
+            default:
+                  return state;
+      }
+}
+
+const store = createStore(counterReducer);
+
+////////////////////////////////////////////////////////////////////////////
+//react-redux configuration
+
+//stateMapper
+function mapStateToProps(state) {
+      let { count } = state;
+      //configuration object
+      return {
+            //key:value: key-prop:value is state
+            //count: count
+            count
+      }
+}
+
+
+/////////////////////////////////////////////////////////////////////////////React
+//Container Component
+function Counter(prop) {
+      return (<div>
+            <h1>React-Redux-CounterApp</h1>
+            <h1>Count : {prop.count}</h1>
+            <button onClick={() => prop.dispatch({ type: INCREMENT })}>
+                  Increment
+            </button>
+            <button onClick={() => prop.dispatch({ type: DECREMENT })}>
+                  Decrement
+
+            </button>
+      </div>)
+}
+const CounterContainer = connect(mapStateToProps)(Counter);
+
+const App = () => {
+
+      return <Provider store={store}>
+            <CounterContainer />
+      </Provider>;
+}
+
+render(<App />, document.getElementById('root'));
+
+
+
+
+
+
+
+.................................................................................
+componentShouldUpdate ==> To prevent child components re-rendering, if there is no update in the state or props in the current(parent Component)
+ -useMemo
+
+
+
+import React, { useState, useMemo } from "react";
+
+export default function SimpleStateHooks() { 
+    const [count, setCount] = useState(1000);
+
+    function returnValue(inputValue) {
+      return inputValue + 10;
+    }
+
+    var calculatedValue = useMemo(() => returnValue(10), [10]);
+
+    setTimeout(() => {
+        setCount(count + 1);
+    }, 1000)
+
+  return (
+    <div>
+      <p>You clicked {count} times</p>
+
+      <b>Random Value: {calculatedValue}</b><br></br><br></br>
+
+      <button onClick={() => setCount(count + 1)}>Update Count</button>
+    </div>
+  );
+}
+
+ the memoized data is received rather than getting data from the re-execution of the given function. Hence useMemo hooks are able to contribute to the performance of the application.
+
+................................................................................
+
+
+
+
+
+
+
+
+
